@@ -1,0 +1,37 @@
+
+using ERPAPI.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace ERPAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class AuthController : ControllerBase
+    {
+        private readonly JwtService _jwtService;
+
+        public AuthController(JwtService jwtService)
+        {
+            _jwtService = jwtService;
+        }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest request)
+        {
+            // 这里简化了认证逻辑，实际应用中应该验证用户名和密码
+            if (request.Username == "admin" && request.Password == "admin123")
+            {
+                var token = _jwtService.GenerateToken(request.Username);
+                return Ok(new { token });
+            }
+
+            return Unauthorized();
+        }
+    }
+
+    public class LoginRequest
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+    }
+} 
