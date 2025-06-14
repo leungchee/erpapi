@@ -1,5 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ERPAPI.Dtos;
+using ERPAPI.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ERPAPI.Controllers
 {
@@ -8,6 +13,55 @@ namespace ERPAPI.Controllers
     [Route("api/[controller]")]
     public class MaterialUsageSyncController : ControllerBase
     {
+        private readonly IMaterialUsageService _materialUsageService;
+
+        public MaterialUsageSyncController(IMaterialUsageService materialUsageService)
+        {
+            _materialUsageService = materialUsageService ?? throw new ArgumentNullException(nameof(materialUsageService));
+        }
+
+        /// <summary>
+        /// 同步原材料消耗信息
+        /// </summary>
+        /// <param name="dtos">原材料消耗信息列表</param>
+        /// <returns>同步结果</returns>
+        [HttpPost("sync")]
+        [ProducesResponseType(typeof(MaterialUsageSyncResponse), 200)]
+        [ProducesResponseType(typeof(MaterialUsageSyncResponse), 400)]
+        [ProducesResponseType(typeof(MaterialUsageSyncResponse), 500)]
+        public async Task<ActionResult<MaterialUsageSyncResponse>> SyncMaterialUsage([FromBody] List<MaterialUsageSyncDto> dtos)
+        {
+            if (dtos == null || !dtos.Any())
+            {
+                return BadRequest(new MaterialUsageSyncResponse 
+                { 
+                    Code = "400",
+                    Message = "请求数据不能为空",
+                    Success = false
+                });
+            }
+
+            try
+            {
+                var result = await _materialUsageService.SyncMaterialUsageAsync(dtos);
+                if (result.Success)
+                {
+                    return Ok(result);
+                }
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+                // 记录异常日志
+                return StatusCode(500, new MaterialUsageSyncResponse
+                {
+                    Code = "500",
+                    Message = $"同步原材料消耗信息时发生错误: {ex.Message}",
+                    Success = false
+                });
+            }
+        }
+
         [HttpGet("material-usage")]
         public IActionResult GetMaterialUsageData([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {

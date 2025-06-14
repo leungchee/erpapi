@@ -71,6 +71,8 @@ namespace ERPAPI
 
             // Register services
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<ILogisticsService, LogisticsService>();
+            builder.Services.AddScoped<IMaterialUsageService, MaterialUsageService>();
 
             var app = builder.Build();
 
