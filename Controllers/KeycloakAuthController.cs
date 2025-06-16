@@ -9,6 +9,7 @@ namespace ERPAPI.Controllers
     /// </summary>
     [ApiController]
     [Route("auth/realms/Ct/protocol/openid-connect")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class KeycloakAuthController : ControllerBase
     {
         private readonly JwtService _jwtService;

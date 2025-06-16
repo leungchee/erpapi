@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ERPAPI.Services;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace ERPAPI.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("openApi/thirdErpApi/v2")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class LogisticsSyncController : ControllerBase
     {
         private readonly ILogisticsService _logisticsService;

@@ -3,6 +3,9 @@ using ERPAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Data;
+using System.Data.SqlClient;
+using ERPAPI.Data;
 
 namespace ERPAPI
 {
@@ -43,6 +46,9 @@ namespace ERPAPI
                     Description = builder.Configuration["SwaggerSettings:Description"]
                 });
 
+                // 启用 Swagger 注解
+                c.EnableAnnotations();
+
                 // Add JWT Authentication to Swagger
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -71,7 +77,20 @@ namespace ERPAPI
 
             // Register services
             builder.Services.AddHttpClient();
+            
+            // 注册数据库连接
+            builder.Services.AddScoped<IDbConnection>(sp =>
+            {
+                var configuration = sp.GetRequiredService<IConfiguration>();
+                return new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            // 注册仓储
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<PasswordService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<TokenProvider>();
             builder.Services.AddScoped<ILogisticsService, LogisticsService>();
             builder.Services.AddScoped<IMaterialUsageService, MaterialUsageService>();

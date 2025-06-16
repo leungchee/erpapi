@@ -5,12 +5,14 @@ using ERPAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace ERPAPI.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("openApi/thirdApi")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class MaterialUsageSyncController : ControllerBase
     {
         private readonly IMaterialUsageService _materialUsageService;
