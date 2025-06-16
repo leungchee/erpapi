@@ -10,7 +10,7 @@ namespace ERPAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("openApi/thirdApi")]
     public class MaterialUsageSyncController : ControllerBase
     {
         private readonly IMaterialUsageService _materialUsageService;
@@ -25,7 +25,7 @@ namespace ERPAPI.Controllers
         /// </summary>
         /// <param name="dtos">原材料消耗信息列表</param>
         /// <returns>同步结果</returns>
-        [HttpPost("sync")]
+        [HttpPost("acceptUseData")]
         [ProducesResponseType(typeof(MaterialUsageSyncResponse), 200)]
         [ProducesResponseType(typeof(MaterialUsageSyncResponse), 400)]
         [ProducesResponseType(typeof(MaterialUsageSyncResponse), 500)]

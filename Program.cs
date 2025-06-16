@@ -70,7 +70,9 @@ namespace ERPAPI
             });
 
             // Register services
+            builder.Services.AddHttpClient();
             builder.Services.AddScoped<JwtService>();
+            builder.Services.AddScoped<TokenProvider>();
             builder.Services.AddScoped<ILogisticsService, LogisticsService>();
             builder.Services.AddScoped<IMaterialUsageService, MaterialUsageService>();
 

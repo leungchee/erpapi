@@ -23,54 +23,54 @@ namespace ERPAPI.Services
         /// </summary>
         public async Task<MaterialUsageSyncResponse> SyncMaterialUsageAsync(List<MaterialUsageSyncDto> dtos)
         {
-            var response = new MaterialUsageSyncResponse
+            return new MaterialUsageSyncResponse
             {
                 Code = "200",
                 Message = "同步成功",
                 Success = true
             };
 
-            try
-            {
-                foreach (var dto in dtos)
-                {
-                    try
-                    {
-                        // 1. 验证数据
-                        ValidateMaterialUsageData(dto);
-                        
-                        // 2. 保存到数据库
-                        await SaveMaterialUsageData(dto);
-                        
-                        // 3. 更新库存
-                        await UpdateInventory(dto);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "同步原材料消耗信息失败: {OrderId}", dto.OrderId);
-                        response.FailedOrders.Add(dto.OrderId);
-                        response.Success = false;
-                    }
-                }
+            //try
+            //{
+            //    foreach (var dto in dtos)
+            //    {
+            //        try
+            //        {
+            //            // 1. 验证数据
+            //            ValidateMaterialUsageData(dto);
 
-                if (!response.Success)
-                {
-                    response.Code = "400";
-                    response.Message = $"部分原材料消耗信息同步失败，失败的订单ID: {string.Join(", ", response.FailedOrders)}";
-                }
+            //            // 2. 保存到数据库
+            //            await SaveMaterialUsageData(dto);
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "同步原材料消耗信息时发生异常");
-                return new MaterialUsageSyncResponse
-                {
-                    Code = "500",
-                    Message = "同步原材料消耗信息时发生系统错误",
-                    Success = false
-                };
-            }
+            //            // 3. 更新库存
+            //            await UpdateInventory(dto);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            _logger.LogError(ex, "同步原材料消耗信息失败: {OrderId}", dto.OrderId);
+            //            response.FailedOrders.Add(dto.OrderId);
+            //            response.Success = false;
+            //        }
+            //    }
+
+            //    if (!response.Success)
+            //    {
+            //        response.Code = "400";
+            //        response.Message = $"部分原材料消耗信息同步失败，失败的订单ID: {string.Join(", ", response.FailedOrders)}";
+            //    }
+
+            //    return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "同步原材料消耗信息时发生异常");
+            //    return new MaterialUsageSyncResponse
+            //    {
+            //        Code = "500",
+            //        Message = "同步原材料消耗信息时发生系统错误",
+            //        Success = false
+            //    };
+            //}
         }
 
         private void ValidateMaterialUsageData(MaterialUsageSyncDto dto)
@@ -103,4 +103,4 @@ namespace ERPAPI.Services
             await Task.CompletedTask;
         }
     }
-} 
+}

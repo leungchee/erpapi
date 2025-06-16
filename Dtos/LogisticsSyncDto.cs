@@ -10,27 +10,27 @@ namespace ERPAPI.Dtos
         /// <summary>
         /// 订单编号
         /// </summary>
-        public string OrderNumber { get; set; }
+        public string? OrderNumber { get; set; }
 
         /// <summary>
         /// 物流单号
         /// </summary>
-        public string TrackingNumber { get; set; }
+        public string? TrackingNumber { get; set; }
 
         /// <summary>
         /// 物流状态
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// 物流公司代码
         /// </summary>
-        public string LogisticsCompanyCode { get; set; }
+        public string? LogisticsCompanyCode { get; set; }
 
         /// <summary>
         /// 物流公司名称
         /// </summary>
-        public string LogisticsCompanyName { get; set; }
+        public string? LogisticsCompanyName { get; set; }
 
         /// <summary>
         /// 发货时间
@@ -50,11 +50,11 @@ namespace ERPAPI.Dtos
         /// <summary>
         /// 收货人信息
         /// </summary>
-        public string ReceiverInfo { get; set; }
+        public string? ReceiverInfo { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
     }
 } 

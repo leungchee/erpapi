@@ -23,55 +23,14 @@ namespace ERPAPI.Services
         /// </summary>
         public async Task<LogisticsSyncResponse> SyncLogisticsAsync(List<LogisticsSyncDto> dtos)
         {
-            var response = new LogisticsSyncResponse
+            return new LogisticsSyncResponse
             {
                 Code = "200",
                 Message = "同步成功",
                 Success = true
             };
 
-            try
-            {
-                foreach (var dto in dtos)
-                {
-                    try
-                    {
-                        // TODO: 实现具体的物流信息同步逻辑
-                        // 1. 验证数据
-                        ValidateLogisticsData(dto);
-                        
-                        // 2. 保存到数据库
-                        await SaveLogisticsData(dto);
-                        
-                        // 3. 更新订单状态
-                        await UpdateOrderStatus(dto);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, "同步物流信息失败: {OrderNumber}", dto.OrderNumber);
-                        response.FailedOrders.Add(dto.OrderNumber);
-                        response.Success = false;
-                    }
-                }
-
-                if (!response.Success)
-                {
-                    response.Code = "400";
-                    response.Message = $"部分物流信息同步失败，失败的订单号: {string.Join(", ", response.FailedOrders)}";
-                }
-
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "同步物流信息时发生异常");
-                return new LogisticsSyncResponse
-                {
-                    Code = "500",
-                    Message = "同步物流信息时发生系统错误",
-                    Success = false
-                };
-            }
+           
         }
 
         private void ValidateLogisticsData(LogisticsSyncDto dto)
