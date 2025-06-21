@@ -73,23 +73,23 @@ namespace ERPAPI.Services
             //}
         }
 
-        private void ValidateMaterialUsageData(MaterialUsageSyncDto dto)
-        {
-            if (dto.OrderId <= 0)
-                throw new ArgumentException("订单ID无效");
+        //private void ValidateMaterialUsageData(MaterialUsageSyncDto dto)
+        //{
+        //    if (dto.OrderId <= 0)
+        //        throw new ArgumentException("订单ID无效");
 
-            if (string.IsNullOrEmpty(dto.MaterialType))
-                throw new ArgumentException("原材料类型不能为空");
+        //    if (string.IsNullOrEmpty(dto.MaterialType))
+        //        throw new ArgumentException("原材料类型不能为空");
 
-            if (string.IsNullOrEmpty(dto.MaterialName))
-                throw new ArgumentException("原材料名称不能为空");
+        //    if (string.IsNullOrEmpty(dto.MaterialName))
+        //        throw new ArgumentException("原材料名称不能为空");
 
-            if (string.IsNullOrEmpty(dto.MaterialUsedQty))
-                throw new ArgumentException("原材料消耗量不能为空");
+        //    if (string.IsNullOrEmpty(dto.MaterialUsedQty))
+        //        throw new ArgumentException("原材料消耗量不能为空");
 
-            if (dto.MaterialDate == default)
-                throw new ArgumentException("原材料消耗时间无效");
-        }
+        //    if (dto.MaterialDate == default)
+        //        throw new ArgumentException("原材料消耗时间无效");
+        //}
 
         private async Task SaveMaterialUsageData(MaterialUsageSyncDto dto)
         {
